@@ -1,9 +1,6 @@
 package com.dztest.task1;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class FileDependencyMap {
     private Map<String, Set<String>> graph = new HashMap<>();
@@ -21,6 +18,10 @@ public class FileDependencyMap {
         // Add the file with no dependencies
         // if graph is disconnected It will be presented in alphabetic order
         graph.putIfAbsent(file, new HashSet<>());
+    }
+
+    public Set<String> getFilesOfMap(){
+        return graph.keySet();
     }
 
     public Set<String> getDependencies(String file) {

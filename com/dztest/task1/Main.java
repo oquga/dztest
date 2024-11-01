@@ -1,5 +1,6 @@
 package com.dztest.task1;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,48 +14,30 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
-    public static final Pattern requirePattern = Pattern.compile("require\\s+'[^']+'");
-
-    public static String ROOT_DIR = "resources";
+    public static final String ROOT_DIR = "resources/";
 
     public static void main(String[] args) {
 
         Path rootDir = Paths.get(ROOT_DIR);
-
         FileDependencyMap fileDependencyMap = new FileDependencyMap();
+        FileUtils fileUtils = new FileUtils();
+
 
         try {
-            graphAllFiles(rootDir, fileDependencyMap);
+
+            fileUtils.scanDirectory(rootDir, fileDependencyMap);
 
             fileDependencyMap.printGraph();
+
+            List<String> sortedOrder = topologicalSort(fileDependencyMap);
+            System.out.println("Topological Sort Order: " + sortedOrder);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
 
 
-//        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 1/File 1-1");
-//        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 2/File 2-1");
-//
-//        fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-1");
 
-        //fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-2"); //make cyclic
-
-       //fileDependencyMap.addIndependentFile("Folder 0/File 0-0");
-
-//        fileDependencyMap.addIndependentFile("Folder 0/File 0-0");
-//       // fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 0/File 0-0");
-//        fileDependencyMap.addDependency("Folder 1/File 1-2", "Folder 1/File 1-1");
-//        fileDependencyMap.addDependency("Folder 2/File 2-1", "Folder 1/File 1-2");
-//        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 2/File 2-1");
-//       // fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 0/File 0-0");
-//
-//        fileDependencyMap.addDependency("Folder 0/File 0-0", "Folder 2/File 2-2");
-
-//        fileDependencyMap.printGraph();
-
-//        List<String> sortedOrder = topologicalSort(fileDependencyMap);
-//        System.out.println("Topological Sort Order: " + sortedOrder);
     }
 
     //TODO: Check for cyclic dependencies after realization of file concatination

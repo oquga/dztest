@@ -41,14 +41,15 @@ public class FileUtils {
 
     public static void replaceLineWithContent(String sourceFilePath, String lineToReplace ) throws IOException {
         // Read all lines from the source file
-        String requireLine = "require ‘"+lineToReplace+"’";
+        //String requireLine = "require ‘"+lineToReplace+"’";
         String replacementFilePath = ROOT_DIR+lineToReplace;
         StringBuilder fileContent = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(sourceFilePath))) {
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
                 // Replace specified line with new content if it matches
-                if (currentLine.equals(requireLine)) {
+                if (isValidRequireStatement(currentLine) &&
+                        extractRequiredFilePath(currentLine).equals(lineToReplace)) {
                     // Read replacement content from another file
                     String replacementContent = new String(Files.readAllBytes(Paths.get(replacementFilePath)));
                     fileContent.append(replacementContent).append(System.lineSeparator());
@@ -80,7 +81,8 @@ public class FileUtils {
     }
 
     private static boolean isTextFile(File file) {
-        return "text/plain".equals(fileTypeMap.getContentType(file));
+        return fileTypeMap.getContentType(file).startsWith("text/");
+       // return "text/plain".equals(fileTypeMap.getContentType(file));
     }
 
 
@@ -110,68 +112,9 @@ public class FileUtils {
             e.printStackTrace();
         }
     }
-//    private static void processTextFile(File file, FileDependencyMap fileDependencyMap) {
-//        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-//            String line;
-//
-//            //cut rootDir naming from beggining of fileName
-//            String relativePath = cutRootDir(file.getPath().toString(), ROOT_DIR);
-//
-//            //add Independent File as Key
-//            fileDependencyMap.addIndependentFile(relativePath);
-//
-//
-//            while ((line = reader.readLine()) != null) {
-//                if (line.contains("require")) {  // Quick check before regex
-//
-//                    String requiredFile = processRequireLine(relativePath, line);
-//                    if (requiredFile!=null) { // do not proceed non text file or invalid files
-//                        fileDependencyMap.addDependency(relativePath, requiredFile);
-//                    }
-//                }
-//            }
-//        }catch (FileNotFoundException e) {
-//            System.err.println(e.getMessage());
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            System.err.println("Error reading file: " + file);
-//            e.printStackTrace();
-//        }
-//    }
 
-
-
-//    private static String processRequireLine(String relativePath, String line) throws FileNotFoundException {
-//
-//        line = line.trim();
-//
-//        if (!line.startsWith("require") || !line.endsWith("’")) {
-//            return null; // Invalid require statement
-//        }
-//
-//        // Extract the file path from  bracets
-//        String requiredFilePath = line.substring(line.indexOf(8216) + 1, line.lastIndexOf(8217)).trim();
-//
-//
-//        File requiredFile = new File(ROOT_DIR, requiredFilePath);
-//
-//        if (!requiredFile.exists()) {
-//            throw new FileNotFoundException(relativePath+": Required file in line '"+ line+"' does not exist");
-//           // return null; // File does not exist
-//        }
-//
-//        // Check if it is a text file
-//        if (!isTextFile(requiredFile)) {
-//            return null; // Not a text file
-//        }
-//
-//        // Return the string of text file path
-//        return requiredFilePath;
-//    }
-
+    //is extracted to add dependency
     private static String processRequireLine(String relativePath, String line) throws FileNotFoundException, IllegalArgumentException {
-        line = line.trim();
-
         if (!isValidRequireStatement(line)) {
             return null; // Invalid require statement
         }
@@ -185,10 +128,12 @@ public class FileUtils {
     }
 
     private static boolean isValidRequireStatement(String line) {
+        line = line.trim();
         return line.startsWith("require") && line.endsWith(String.valueOf(CLOSE_QUOTE));
     }
 
     private static String extractRequiredFilePath(String line) {
+        line = line.trim();
         int startIndex = line.indexOf(OPEN_QUOTE) + 1;
         int endIndex = line.lastIndexOf(CLOSE_QUOTE);
         return line.substring(startIndex, endIndex).trim();

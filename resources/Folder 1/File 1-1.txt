@@ -3,10 +3,7 @@ Suspendisse id enim euismod erat elementum cursus.
 In hac habitasse platea dictumst. Etiam vitae tortor ipsum.
 Morbi massa augue, lacinia sed nisl id, congue eleifend lorem.
 
-require   ____  Folder 2/File 2-1.txt’
-
-//require ‘Folder 2/File 2-2.txt’
-
+require ‘Folder 2/File 2-1.txt’
 
 Praesent feugiat egestas sem, id luctus lectus dignissim ac.
 Donec elementum rhoncus quam, vitae viverra massa euismod a.

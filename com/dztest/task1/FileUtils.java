@@ -1,9 +1,9 @@
 package com.dztest.task1;
 
-import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
+import java.net.URLConnection;
 import java.nio.file.*;
-import java.util.List;
+
 
 //Перевод из файлов в граф структуру данных
 public class FileUtils {
@@ -18,8 +18,6 @@ public class FileUtils {
     private static final String ROOT_DIR = "resources/";
     private static final char OPEN_QUOTE = '‘';
     private static final char CLOSE_QUOTE = '’';
-    private static final MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
-
 
     //проверяет директория с файлами
     public static void scanDirectory(Path currentPath, FileGraph fileGraph) throws IOException {
@@ -100,13 +98,9 @@ public class FileUtils {
         }
     }
 
-    //TODO: можно доработать, в данном случае любой редактируемый файл есть текстовый файл
     private static boolean isTextFile(File file) {
-
-
-        return  (fileTypeMap.getContentType(file).startsWith("text"));
-
-
+        String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+        return mimeType != null && (mimeType.startsWith("text/") || mimeType.equals("application/json"));
     }
 
 }

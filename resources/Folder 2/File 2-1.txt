@@ -4,5 +4,4 @@ Fusce tempor eleifend libero at pharetra. Nulla lacinia ante ac felis malesuada 
 Vestibulum eget congue sapien, ac euismod elit.
 Fusce nisl ante, consequat et imperdiet vel, semper et neque.
 
-//require ‘Folder 1/test.json’
 

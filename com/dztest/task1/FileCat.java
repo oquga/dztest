@@ -35,7 +35,6 @@ public class FileCat {
         Path renamedPath = Paths.get(outputFile);
         Files.move(targetPath, renamedPath, StandardCopyOption.REPLACE_EXISTING);
 
-        //System.out.println("File copied and renamed successfully to: " + renamedPath);
     }
 
     public static void replaceLineWithContent(String sourceFilePath, String lineToReplace ) throws IOException {

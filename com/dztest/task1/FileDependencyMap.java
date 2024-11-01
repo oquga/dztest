@@ -9,7 +9,9 @@ public class FileDependencyMap {
 
         //check is such file exist in real
 
+        //возможно придется убрать computeIfAbsent
         graph.computeIfAbsent(file, k -> new HashSet<>()).add(dependency);
+
 
         graph.putIfAbsent(dependency, new HashSet<>());
     }

@@ -1,29 +1,44 @@
 package com.dztest.task1;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
+    public static final Pattern requirePattern = Pattern.compile("require\\s+'[^']+'");
+
+    public static String ROOT_DIR = "resources";
+
     public static void main(String[] args) {
 
-      //  Path rootPath = Paths.get("resources");
+        Path rootDir = Paths.get(ROOT_DIR);
 
-       // List<File> allFiles = new ArrayList<>();
-
-        // listAllFiles(rootPath, allFiles);
         FileDependencyMap fileDependencyMap = new FileDependencyMap();
 
+        try {
+            graphAllFiles(rootDir, fileDependencyMap);
 
-        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 1/File 1-1");
-        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 2/File 2-1");
+            fileDependencyMap.printGraph();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-1");
-        fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-2");
+
+
+//        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 1/File 1-1");
+//        fileDependencyMap.addDependency("Folder 2/File 2-2", "Folder 2/File 2-1");
+//
+//        fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-1");
+
+        //fileDependencyMap.addDependency("Folder 1/File 1-1", "Folder 2/File 2-2"); //make cyclic
 
        //fileDependencyMap.addIndependentFile("Folder 0/File 0-0");
 
@@ -36,12 +51,13 @@ public class Main {
 //
 //        fileDependencyMap.addDependency("Folder 0/File 0-0", "Folder 2/File 2-2");
 
-        fileDependencyMap.printGraph();
+//        fileDependencyMap.printGraph();
 
-        List<String> sortedOrder = topologicalSort(fileDependencyMap);
-        System.out.println("Topological Sort Order: " + sortedOrder);
+//        List<String> sortedOrder = topologicalSort(fileDependencyMap);
+//        System.out.println("Topological Sort Order: " + sortedOrder);
     }
 
+    //TODO: Check for cyclic dependencies after realization of file concatination
     public static List<String> topologicalSort(FileDependencyMap graph) {
         Set<String> visited = new HashSet<>();
         Stack<String> stack = new Stack<>();
@@ -71,15 +87,6 @@ public class Main {
         stack.push(file);
     }
 
-    private static void listAllFiles(Path currentPath, List<File> allFiles) throws IOException {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentPath)){
-            for (Path i : stream){
-                if(Files.isDirectory(i)){
-                    listAllFiles(i, allFiles);
-                } else {
-                    allFiles.add(i.toFile());
-                }
-            }
-        }
-    }
+
+
 }

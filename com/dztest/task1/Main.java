@@ -3,7 +3,6 @@ package com.dztest.task1;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
 
 
 public class Main {
@@ -17,60 +16,29 @@ public class Main {
     public static void main(String[] args) {
 
         Path rootDir = Paths.get(ROOT_DIR);
-        FileDependencyMap fileDependencyMap = new FileDependencyMap();
+        FileGraph fileGraph = new FileGraph();
         try {
 
-            FileUtils.scanDirectory(rootDir, fileDependencyMap);
+            FileUtils.scanDirectory(rootDir, fileGraph);
 
-            fileDependencyMap.printGraph();
+            fileGraph.printGraph();
 
 
-            if (!fileDependencyMap.topologicalSort()){
+            if (!fileGraph.topologicalSort()){
                 System.out.println("Topological sorting impossible, detected  cyclic dependencies of files:\n" +
-                        fileDependencyMap.getCyclicFilesChain());
+                        fileGraph.getCyclicFilesChain());
                 return;
             }
 
-            System.out.println("Topological Sort Order: " + fileDependencyMap.getTopoSortedFileList());
+            System.out.println("Topological Sort Order: " + fileGraph.getTopoSortedFileList());
 
-            //FileUtils.concatenateSortedTextFiles(fileDependencyMap.getTopoSortedFileList(),CAT_PATH);
+            FileCat.concatenateSortedTextFiles(fileGraph.getTopoSortedFileList(),CAT_PATH);
 
 
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-
-    //TODO: Check for cyclic dependencies after realization of file concatination
-//    public static List<String> topologicalSort(FileDependencyMap graph) {
-////        Set<String> visited = new HashSet<>();
-////        Stack<String> stack = new Stack<>();
-//
-//        for (String file : graph.getFilesOfMap()) {
-//            if (!visited.contains(file)) {
-//                dfs(graph, file, visited, stack);
-//            }
-//        }
-//
-//        List<String> tSortedFileList = new ArrayList<>();
-//        while (!stack.isEmpty()) {
-//            tSortedFileList.add(stack.pop());
-//        }
-//        return tSortedFileList;
-//    }
-
-//    private static void dfs(FileDependencyMap graph, String file, Set<String> visited, Stack<String> stack) {
-//        visited.add(file);
-//
-//        for (String dependency : graph.getDependencies(file)) {
-//            if (!visited.contains(dependency)) {
-//                dfs(graph, dependency, visited, stack);
-//            }
-//        }
-//
-//        stack.push(file);
-//    }
-
-
 
 }

@@ -1,43 +1,38 @@
 package com.dztest.task1;
 
-import javax.activation.MimetypesFileTypeMap;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Main {
     public static final String ROOT_DIR = "resources/";
+
+    public static final String CAT_DIR = "cat/";
+    public static final String CAT_FILE="cat.txt";
+
+    public static final String CAT_PATH=CAT_DIR+CAT_FILE;
 
     public static void main(String[] args) {
 
         Path rootDir = Paths.get(ROOT_DIR);
         FileDependencyMap fileDependencyMap = new FileDependencyMap();
-        FileUtils fileUtils = new FileUtils();
-
-
         try {
 
-            fileUtils.scanDirectory(rootDir, fileDependencyMap);
+            FileUtils.scanDirectory(rootDir, fileDependencyMap);
 
             fileDependencyMap.printGraph();
 
             List<String> sortedOrder = topologicalSort(fileDependencyMap);
             System.out.println("Topological Sort Order: " + sortedOrder);
+
+            FileUtils.concatenateSortedTextFiles(sortedOrder,CAT_PATH);
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
-
     }
 
     //TODO: Check for cyclic dependencies after realization of file concatination

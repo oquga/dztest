@@ -3,9 +3,9 @@ package com.dztest.task1;
 import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class FileUtils {
     private static final String ROOT_DIR = "resources/"; // Define your root directory here
@@ -14,6 +14,56 @@ public class FileUtils {
     private static final MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
 
 
+    public static void concatenateSortedTextFiles(List<String> tSortedFileList, String outputFile) throws IOException {
+        for (int i = 0; i < tSortedFileList.size(); i++) {
+            if (i==0){
+                copyAndRenameFile(tSortedFileList.get(i), outputFile);
+            } else {
+                replaceLineWithContent(outputFile,tSortedFileList.get(i));
+            }
+            System.out.println(tSortedFileList.get(i));
+        }
+    }
+
+    private static void copyAndRenameFile(String sourceFile, String outputFile) throws IOException {
+        Path sourcePath = Paths.get(ROOT_DIR+sourceFile);
+        Path targetPath = Paths.get(outputFile);
+
+        // Copy the file
+        Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+        // Optionally rename or move the copied file
+        Path renamedPath = Paths.get(outputFile);
+        Files.move(targetPath, renamedPath, StandardCopyOption.REPLACE_EXISTING);
+
+        //System.out.println("File copied and renamed successfully to: " + renamedPath);
+    }
+
+    public static void replaceLineWithContent(String sourceFilePath, String lineToReplace ) throws IOException {
+        // Read all lines from the source file
+        String requireLine = "require ‘"+lineToReplace+"’";
+        String replacementFilePath = ROOT_DIR+lineToReplace;
+        StringBuilder fileContent = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(sourceFilePath))) {
+            String currentLine;
+            while ((currentLine = reader.readLine()) != null) {
+                // Replace specified line with new content if it matches
+                if (currentLine.equals(requireLine)) {
+                    // Read replacement content from another file
+                    String replacementContent = new String(Files.readAllBytes(Paths.get(replacementFilePath)));
+                    fileContent.append(replacementContent).append(System.lineSeparator());
+                } else {
+                    // Keep original line
+                    fileContent.append(currentLine).append(System.lineSeparator());
+                }
+            }
+        }
+
+        // Write modified content back to the source file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sourceFilePath))) {
+            writer.write(fileContent.toString());
+        }
+    }
 
     public static void scanDirectory(Path currentPath, FileDependencyMap fileDependencyMap) throws IOException {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(currentPath)){

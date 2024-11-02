@@ -9,32 +9,51 @@ import java.util.List;
 
 import static com.dztest.task1.FileUtils.extractRequiredFilePath;
 import static com.dztest.task1.FileUtils.isValidRequireStatement;
+import static com.dztest.task1.Main.CAT_PATH;
 import static com.dztest.task1.Main.ROOT_DIR;
 
 //Class responsible for concatenation part
 public class FileCat {
-    public static void concatenateSortedTextFiles(List<String> tSortedFileList, String outputFile) throws IOException {
-        for (int i = 0; i < tSortedFileList.size(); i++) {
-            if (i==0){
-                copyAndRenameFile(tSortedFileList.get(i), outputFile);
-            } else {
-                replaceLineWithContent(outputFile,tSortedFileList.get(i));
+
+    public static void simpleConcatenateFiles(List<String> tSortedFiles) throws IOException {
+        System.out.println("Topologically sorted list:");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(CAT_PATH))) {
+            for (String fileName : tSortedFiles) {
+                System.out.println(fileName);
+                try (BufferedReader reader = new BufferedReader(new FileReader(ROOT_DIR+fileName))) {
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                }
             }
-            System.out.println(tSortedFileList.get(i));
         }
     }
 
-    private static void copyAndRenameFile(String sourceFile, String outputFile) throws IOException {
-        Path sourcePath = Paths.get(ROOT_DIR+sourceFile);
-        Path targetPath = Paths.get(outputFile);
+    public static void concatenateSortedTextFiles(List<String> tSortedFileList) throws IOException {
+        if (tSortedFileList.isEmpty()) {
+            System.out.println("No files to concatenate.");
+            return;
+        }
 
-        // Copy the file
+        System.out.println("Topologically sorted list:");
+        copyFile(tSortedFileList.get(0));
+
+        for (int i = 1; i < tSortedFileList.size(); i++) {
+            System.out.println(tSortedFileList.get(i));
+            replaceLineWithContent(CAT_PATH,tSortedFileList.get(i));
+        }
+
+    }
+
+    private static void copyFile(String sourceFile) throws IOException {
+        Path sourcePath = Paths.get(ROOT_DIR+sourceFile);
+        Path targetPath = Paths.get(CAT_PATH);
+
         Files.copy(sourcePath, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-        // Optionally rename or move the copied file
-        Path renamedPath = Paths.get(outputFile);
-        Files.move(targetPath, renamedPath, StandardCopyOption.REPLACE_EXISTING);
-
+        System.out.println(sourceFile);
     }
 
     public static void replaceLineWithContent(String sourceFilePath, String lineToReplace ) throws IOException {
@@ -49,7 +68,9 @@ public class FileCat {
                 if (isValidRequireStatement(currentLine) &&
                         extractRequiredFilePath(currentLine).equals(lineToReplace)) {
                     // Read replacement content from another file
+                    // Read whole file
                     String replacementContent = new String(Files.readAllBytes(Paths.get(replacementFilePath)));
+                    //and put it into this line of "required"
                     fileContent.append(replacementContent).append(System.lineSeparator());
                 } else {
                     // Keep original line

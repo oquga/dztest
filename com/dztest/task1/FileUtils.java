@@ -15,7 +15,7 @@ public class FileUtils {
                 filePathFromRootStr.substring(ROOT_DIR.length()) : //else
                 filePathFromRootStr;
     }
-    private static final String ROOT_DIR = "resources/";
+    private static final String ROOT_DIR = "inputDir/";
     private static final char OPEN_QUOTE = '‘';
     private static final char CLOSE_QUOTE = '’';
 

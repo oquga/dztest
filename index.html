@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO-DO List</title>
+  </head>
+  <body>
+    <h1>TO-DO List</h1>
+
+    <form id="queryForm">
+      <label for="limit">Limit:</label>
+      <input type="number" id="limit" name="limit" value="2" />
+
+      <label for="offset">Offset:</label>
+      <input type="number" id="offset" name="offset" value="0" />
+
+      <button type="button" onclick="proxyRequest()">Отправить запрос</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+      function proxyRequest() {
+        // Получаем значения из формы
+        const limit = document.getElementById("limit").value;
+        const offset = document.getElementById("offset").value;
+
+        // Формируем URL с параметрами
+        const url = `http://localhost:3000/todos?limit=${limit}&offset=${offset}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+          })
+          .catch((error) => console.error("Ошибка:", error));
+      }
+    </script>
+  </body>
+</html>

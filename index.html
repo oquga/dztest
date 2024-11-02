@@ -1,41 +1,78 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DO List</title>
-  </head>
-  <body>
-    <h1>TO-DO List</h1>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Сайдбар -->
+        <div class="sidebar">
+            <div class="search-box">
+                <input type="text" placeholder="Поиск">
+            </div>
+            <div class="buttons">
+                <button>Сегодня</button>
+                <button>На неделю</button>
+            </div>
+            <div class="calendar">
+                <table>
+                    <tr><th colspan="7">May 2022</th></tr>
+                    <tr><td>Su</td><td>Mo</td><td>Tu</td><td>We</td><td>Th</td><td>Fr</td><td>Sa</td></tr>
+                    <tr><td></td><td></td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+                    <tr><td class="selected">8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+                </table>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox">
+                <label>Только невыполненные</label>
+            </div>
+        </div>
 
-    <form id="queryForm">
-      <label for="limit">Limit:</label>
-      <input type="number" id="limit" name="limit" value="2" />
+        <!-- Основной контент -->
+        <div class="content">
+            <h2>8 мая 2022</h2>
+            <div class="todo-list">
+                <div class="todo-item" onclick="showOverlay()">
+                    <div class="info">
+                        <strong>Название</strong>
+                        <p>Описание</p>
+                    </div>
+                    <span>08.05.2022 00:10</span>
+                    <input type="checkbox" checked>
+                </div>
+                <div class="todo-item" onclick="showOverlay()">
+                    <div class="info">
+                        <strong>Название</strong>
+                        <p>Описание</p>
+                    </div>
+                    <span>08.05.2022 00:05</span>
+                    <input type="checkbox">
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <label for="offset">Offset:</label>
-      <input type="number" id="offset" name="offset" value="0" />
-
-      <button type="button" onclick="proxyRequest()">Отправить запрос</button>
-    </form>
-
-    <div id="result"></div>
+    <!-- Оверлей задачи -->
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <h3>Название</h3>
+            <p>08.05.2022 00:10</p>
+            <p>Полное описание</p>
+            <button onclick="hideOverlay()">Готово</button>
+        </div>
+    </div>
 
     <script>
-      function proxyRequest() {
-        // Получаем значения из формы
-        const limit = document.getElementById("limit").value;
-        const offset = document.getElementById("offset").value;
+        function showOverlay() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
 
-        // Формируем URL с параметрами
-        const url = `http://localhost:3000/todos?limit=${limit}&offset=${offset}`;
-
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("result").innerText = JSON.stringify(data, null, 2);
-          })
-          .catch((error) => console.error("Ошибка:", error));
-      }
+        function hideOverlay() {
+            document.getElementById('overlay').style.display = 'none';
+        }
     </script>
-  </body>
+</body>
 </html>

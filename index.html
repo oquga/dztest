@@ -5,30 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DO List</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js" integrity="sha256-9zljDKpE/mQxmaR4V2cGVaQ7arF3CcXxarvgr7Sj8Uc=" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script> -->
+    
 </head>
 <body>
     <div class="container">
         <!-- Сайдбар -->
         <div class="sidebar">
-            <div class="search-box">
-                <input type="text" placeholder="Поиск">
+          <!-- <div class="search-box"> -->
+            <div class="search">
+              <input type="text" placeholder="Search.." name="searchInput">
+              <button id="searchButton"><span class="ui-icon ui-icon-search"></span></button>
             </div>
-            <div class="buttons">
-                <button>Сегодня</button>
-                <button>На неделю</button>
-            </div>
-            <div class="calendar">
-                <table>
-                    <tr><th colspan="7">May 2022</th></tr>
-                    <tr><td>Su</td><td>Mo</td><td>Tu</td><td>We</td><td>Th</td><td>Fr</td><td>Sa</td></tr>
-                    <tr><td></td><td></td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
-                    <tr><td class="selected">8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
-                </table>
-            </div>
-            <div class="checkbox-container">
-                <input type="checkbox">
-                <label>Только невыполненные</label>
-            </div>
+          <!-- </div> -->
         </div>
 
         <!-- Основной контент -->
@@ -74,5 +67,6 @@
             document.getElementById('overlay').style.display = 'none';
         }
     </script>
+    <script src="script.js"></script>
 </body>
 </html>

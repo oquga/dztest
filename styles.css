@@ -1,34 +1,78 @@
 /* Основные стили */
+* {
+    box-sizing: border-box;
+  }
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    height: 100vh;
-    background-color: #f0f0f0;
+    /* display: flex; */
+    /* height: 100%; */
+    /* background-color: #f0f0f0;  */
 }
 
-.container {
+.container {  
     display: flex;
-    width: 100%;
+    flex-wrap: wrap;
+    height: 100vh;
 }
 
 .sidebar {
-    width: 300px;
-    background-color: #ddd;
-    padding: 20px;
-    box-sizing: border-box;
+    flex: 20%;
+    background-color: #f1f1f1;
+    padding: 30px;
 }
 
+/* Main column */
 .content {
-    flex-grow: 1;
+    flex: 70%;
+    background-color: white;
     padding: 20px;
-    box-sizing: border-box;
-    background-color: #f7f7f7;
 }
+
 
 /* Поиск и кнопки */
-.search-box {
+
+.search input[type=text] {
+    padding: 10px;
+    font-size: 17px;
+    border: 1px solid grey;
+    float: left;
+    width: 80%;
+    background: #f1f1f1;
+  }
+  
+.search button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+  }
+
+.search button .ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  
+.search button:hover {
+    background: #0b7dda;
+  }
+
+.search::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+
+
+/* .search-box {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -43,6 +87,8 @@ body {
     background-color: transparent;
     font-size: 16px;
 }
+
+
 
 .buttons {
     display: flex;
@@ -61,37 +107,31 @@ body {
     text-align: left;
 }
 
+
+
 /* Календарь */
-.calendar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10px;
+/* #calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin: 20px;
 }
 
-.calendar table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.calendar td, .calendar th {
-    padding: 5px;
+.day {
+    padding: 20px;
     text-align: center;
+    border: 1px solid #ccc;
     cursor: pointer;
 }
 
-.calendar .selected {
-    background-color: yellow;
+.day.selected {
+    background-color: #007bff;
+    color: white;
 }
 
-.checkbox-container {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-container input {
-    margin-right: 5px;
-}
+.day.range {
+    background-color: #66b3ff;
+} */
 
 /* Список задач */
 .todo-list {
@@ -142,5 +182,5 @@ body {
     font-size: 16px;
     background-color: #ccc;
     border: none;
-    cursor: pointer;
+    cursor: pointer; */
 }

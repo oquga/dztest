@@ -5,3 +5,7 @@
 /out
 
 /build
+
+/META-INF
+
+/outputDir/*.jar

@@ -4,9 +4,7 @@ let isCompleteTasksOnly=false;
 document.addEventListener('DOMContentLoaded', function() {
   let isoDate = new Date().toJSON().slice(0, 10);
   let todayDate = isoDate;
-  displayCurrentCriteria("all");
-
-  getAllTasks(1,0);
+  displayCurrentCriteria(todayDate);
 });
 
 //change actual criteria function
@@ -15,6 +13,12 @@ function displayCurrentCriteria(criteria) {
   $('#currentCritera').text(criteria);
 };
 
+//ISO string to (DD.MM.YYYY HH:mm)
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+  return date.toLocaleString('en-GB', options).replace(',', '');
+}
 
 //sideBar checkbox handler
 document.addEventListener('DOMContentLoaded', function() {
@@ -40,6 +44,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById("searchInput");
   const searchButton = document.getElementById("searchButton");
 
+  // add event listener to the button
+  searchButton.addEventListener('click', function() {
+    const searchTerm = searchInput.value;
+    console.log("len "+ searchTerm.length);
+    if (searchTerm.length === 0) {
+      console.log("Search all");
+      displayCurrentCriteria("*")
+      getAllTasks(4,0);
+    } else{
+      console.log(`Searching for "${searchTerm}"...`);
+      displayCurrentCriteria(searchTerm);
+
+      const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${4}&offset=${0}`;
+
+      fetch(url)
+      .then(response => response.json())
+        .then((data) => {
+          console.log(data);
+          generateTodoItems(data);
+        })
+        .catch((error) => console.error("Ошибка:", error));
+      
+    }
+    $('#searchInput').val('');
+  });
 
   searchInput.addEventListener('keyup', function(event) {
     if (event.keyCode === 13) {
@@ -47,74 +76,53 @@ document.addEventListener('DOMContentLoaded', function() {
       searchButton.click();
     }
   });
-  // add event listener to the button
-  searchButton.addEventListener('click', function() {
-    const searchTerm = searchInput.value;
-    
-    //performSearch(searchTerm);
-    console.log(`Searching for "${searchTerm}"...`);
-    displayCurrentCriteria(searchTerm);
-    getTasksByName(searchTerm);
-    
-    $('#searchInput').val('');
-  });
 });
-
-function getTasksByName(searchTerm) {
-  // Формируем URL с параметрами
-  const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${1}&offset=${1}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
-    })
-    .catch((error) => console.error("Ошибка:", error));
-
-    //
-}
-
-function getTasksByName(searchTerm) {
-  // Формируем URL с параметрами
-  const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${1}&offset=${1}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-        console.log(data);
-      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
-    })
-    .catch((error) => console.error("Ошибка:", error));
-
-    //
-}
 
 function getAllTasks(limit,offset) {
   // Формируем URL с параметрами
-  const url = `http://localhost:3000/todos/find?limit=${limit}&offset=${offset}`;
+  const url = `http://localhost:3000/todos?limit=${limit}&offset=${offset}`;
 
   fetch(url)
-    .then((response) => response.json())
+  .then(response => response.text())
     .then((data) => {
-        console.log(data);
-      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+      console.log(JSON.parse(data));
+     
+      // generateTodoItems(data.tasks);
     })
     .catch((error) => console.error("Ошибка:", error));
-
-    //
 }
 
 
-function performSearch(searchTerm) {
-  // Implement your search logic here
-  // For example, you could make an API call or filter some local data
+function generateTodoItems(tasks) {
+  // Get the container where the todo items will be appended
+  const container = document.getElementsByClassName('todo-list')[0];
+  console.log("tasks: "+tasks[0].name);
+  // Clear existing content (optional)
+  container.innerHTML = '';
 
-  // Example: Simulating a search result
-  setTimeout(() => {
-      alert(`Search results for: ${searchTerm}`);
-      // Here you would typically update the DOM with search results
-  }, 500);
+  // Iterate over each task in the array
+  for (let i = 0; i < tasks.length; i++) {
+    let todoItem = `
+          <div class="todo-item">
+              <div class="taskName" onclick="showOverlay()">
+                  <strong>${tasks[i].name}</strong>
+              </div>
+              <div class="info">
+                  <div class="taskShortDesc" onclick="showOverlay()">
+                      <p>${tasks[i].shortDesc}</p>
+                  </div>
+                  <div class="taskStatus">
+                      <input type="checkbox" ${tasks[i].status ? 'checked' : ''}>
+                  </div>
+              </div>
+              <div class="taskDate" onclick="showOverlay()">
+                  <span>${formatDate(tasks[i].date)}</span>
+              </div>
+          </div>
+      `; 
+    container.innerHTML += todoItem;
+  }
+  
 }
 
 

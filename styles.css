@@ -185,12 +185,11 @@ body {
                     /* flex-direction: column; */
                     justify-content: center;
                     align-items: center;
-                    
-                    
                 }
                 
                 .taskStatus input{
                     transform: scale(4);
+                    pointer-events: none; /* Disables mouse interactions */
                 }
 
             .taskDate{

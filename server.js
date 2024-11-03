@@ -87,8 +87,8 @@ const server = http.createServer((req, res) => {
   if (req.method === "GET" && parsedUrl.pathname.startsWith("/todos")) {
     console.log(parsedUrl.pathname)
     
-      const limit = parsedUrl.query.limit || ""; // Значение по умолчанию 2
-      const offset = parsedUrl.query.offset || ""; // Значение по умолчанию 0
+      const limit = parsedUrl.query.limit; // Значение по умолчанию 2
+      const offset = parsedUrl.query.offset; // Значение по умолчанию 0
       
       if (parsedUrl.pathname === "/todos"){
         fetchToDos(limit, offset, (data, error) => {

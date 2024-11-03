@@ -1,14 +1,40 @@
-function handleCheckboxChange() {
-  var checkbox = document.getElementById("tasksFilterCheckbox");
-  if (checkbox.checked) {
-    console.log("Checkbox is checked");
-    // Perform actions when checkbox is checked
-  } else {
-    console.log("Checkbox is unchecked");
-    // Perform actions when checkbox is unchecked
-  }
-}
+let isCompleteTasksOnly=false;
 
+document.addEventListener('DOMContentLoaded', function() {
+  // console.log("isCompleteTaskOnly: "+ isCompleteTasksOnly);
+  const sidebarCheckbox = document.getElementById('tasksFilterCheckbox');
+
+  function handleSidebarCheckbox() { 
+    if (sidebarCheckbox.checked) {
+      isCompleteTasksOnly = true;
+      console.log("isCompleteTaskOnly: "+ isCompleteTasksOnly);
+    } else {
+      isCompleteTasksOnly = false;
+      console.log("isCompleteTaskOnly: "+ isCompleteTasksOnly);
+    }
+  }
+
+  sidebarCheckbox.addEventListener('change', handleSidebarCheckbox);
+});
+
+function fetchTasks() {
+  // Получаем значения из формы
+  // const limit = document.getElementById("limit").value;
+  // const offset = document.getElementById("offset").value;
+
+  // Формируем URL с параметрами
+  const url = `http://localhost:3000/todos?limit=${1}&offset=${1}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => console.error("Ошибка:", error));
+
+    //
+}
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');

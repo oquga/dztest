@@ -1,5 +1,20 @@
 let isCompleteTasksOnly=false;
 
+//initialize startup variables when document is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  let isoDate = new Date().toJSON().slice(0, 10);
+  let todayDate = isoDate;
+  displayCurrentCriteria(todayDate);
+});
+
+//change actual criteria function
+function displayCurrentCriteria(criteria) {
+  console.log("Now criteria is: "+criteria);
+  $('#currentCritera').text(criteria);
+};
+
+
+//sideBar checkbox handler
 document.addEventListener('DOMContentLoaded', function() {
   // console.log("isCompleteTaskOnly: "+ isCompleteTasksOnly);
   const sidebarCheckbox = document.getElementById('tasksFilterCheckbox');
@@ -17,10 +32,31 @@ document.addEventListener('DOMContentLoaded', function() {
   sidebarCheckbox.addEventListener('change', handleSidebarCheckbox);
 });
 
-function fetchTasks() {
-  // Получаем значения из формы
-  // const limit = document.getElementById("limit").value;
-  // const offset = document.getElementById("offset").value;
+
+//Search by name button
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+
+
+  searchInput.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {
+      // simulate a button click to trigger the search
+      searchButton.click();
+    }
+  });
+  // add event listener to the button
+  searchButton.addEventListener('click', function() {
+    const searchTerm = searchInput.value;
+    performSearch(searchTerm);
+    console.log(`Searching for "${searchTerm}"...`);
+    displayCurrentCriteria(searchTerm);
+  });
+
+});
+
+function getTasksByName() {
+  // Получаем имя из поисковой строки
 
   // Формируем URL с параметрами
   const url = `http://localhost:3000/todos?limit=${1}&offset=${1}`;
@@ -36,27 +72,9 @@ function fetchTasks() {
     //
 }
 
-const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
-  
 
-searchInput.addEventListener('keyup', function(event) {
-  if (event.keyCode === 13) {
-    // simulate a button click to trigger the search
-    searchButton.click();
-  }
-});
-// add event listener to the button
-searchButton.addEventListener('click', function() {
-  // get the search input value
-  const searchTerm = searchInput.value;
-  //performSearch(searchTerm);
-  // do something with the search term (e.g. redirect to a search results page)
-  console.log(`Searching for "${searchTerm}"...`);
-});
 
 function performSearch(searchTerm) {
-  console.log('Searching for:', searchTerm);
   // Implement your search logic here
   // For example, you could make an API call or filter some local data
 
@@ -67,8 +85,8 @@ function performSearch(searchTerm) {
   }, 500);
 }
 
-$(document).ready(function () {
 
+document.addEventListener('DOMContentLoaded', function() {
   // Показать оверлей с информацией о задаче
   window.showOverlay = function (title, time, description) {
     $("#task-title").text(title);
@@ -82,8 +100,8 @@ $(document).ready(function () {
     $("#overlay").css("display", "none");
   };
 
-  // Загрузка задач при загрузке страницы
-  loadTasks();
+  // // Загрузка задач при загрузке страницы
+  // loadTasks();
 
   // Обработчик для фильтрации задач
   $("#incomplete-only").on("change", function () {
@@ -94,3 +112,6 @@ $(document).ready(function () {
     }
   });
 });
+
+
+

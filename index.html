@@ -23,31 +23,16 @@
             </div>
 
             <div class="hotButtons">
-              <button>Today</button>
-              <button>This Week</button>
+              <button onclick="todayTasks()">Today</button>
+              <button onclick="thisWeekTasks()">This Week</button>
             </div>
 
-            <div class="calendar">
-              <center>
-              <span id="datepicker"></span>
-                <script>
-                  var eventDates = {};
-                  eventDates[ new Date( '11/01/2024' )] = new Date( '11/01/2024' ).toString();;
-
-                // $( "#datepicker" ).datepicker({
-                jQuery('#datepicker').datepicker({
-                  beforeShowDay: function( date ) {
-                    var highlight = eventDates[date];
-                    if( highlight ) {
-                          return [true, "event", highlight]; 
-                    } else {
-                          return [true, '', ''];
-                    }
-                  }
-                });
-                </script>
-              </center>
-            </div>
+              
+            
+            <!-- <div class="calendar">
+              <input type="text" id="start" placeholder="Start Date">
+              <input type="text" id="end" placeholder="End Date">
+            </div> -->
 
             <div class="incompleteTasksCheckbox">
               <center>
@@ -113,15 +98,10 @@
               </div>
             </div>
             <div class="overlay-description">
-              <p>Metus portafacilisi egestasamet vitaenunc vitaetristique veladipiscing orci sollicitudinpurus maurisfringilla utorci cursus volutpatmassa laoreetvenenatis sollicitudin viverraid. Quisque iaculisscelerisque venenatistempor do nuncsed felisnisl egetenim tempor consequatvel nisimetus crashendrerit laoreet nequeat consequatvel nibhadipiscing phasellus egestas atultrices nuncut sociis atvulputate leo aliquam lobortisipsum lacuspretium integer convallis donec.</p>
-              <p>Metus portafacilisi egestasamet vitaenunc vitaetristique veladipiscing orci sollicitudinpurus maurisfringilla utorci cursus volutpatmassa laoreetvenenatis sollicitudin viverraid. Quisque iaculisscelerisque venenatistempor do nuncsed felisnisl egetenim tempor consequatvel nisimetus crashendrerit laoreet nequeat consequatvel nibhadipiscing phasellus egestas atultrices nuncut sociis atvulputate leo aliquam lobortisipsum lacuspretium integer convallis donec.</p>
-              <p>Metus portafacilisi egestasamet vitaenunc vitaetristique veladipiscing orci sollicitudinpurus maurisfringilla utorci cursus volutpatmassa laoreetvenenatis sollicitudin viverraid. Quisque iaculisscelerisque venenatistempor do nuncsed felisnisl egetenim tempor consequatvel nisimetus crashendrerit laoreet nequeat consequatvel nibhadipiscing phasellus egestas atultrices nuncut sociis atvulputate leo aliquam lobortisipsum lacuspretium integer convallis donec.</p>
-              <p>Metus portafacilisi egestasamet vitaenunc vitaetristique veladipiscing orci sollicitudinpurus maurisfringilla utorci cursus volutpatmassa laoreetvenenatis sollicitudin viverraid. Quisque iaculisscelerisque venenatistempor do nuncsed felisnisl egetenim tempor consequatvel nisimetus crashendrerit laoreet nequeat consequatvel nibhadipiscing phasellus egestas atultrices nuncut sociis atvulputate leo aliquam lobortisipsum lacuspretium integer convallis donec.</p>
-
             </div>
             
             <div class="overlay-button">
-              <button onclick="hideOverlay()">Готово</button>
+              <button onclick="hideOverlay()">OK</button>
             </div>
         </div>
     </div>

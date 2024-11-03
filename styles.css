@@ -20,13 +20,19 @@ body {
 
 .sidebar {
     flex: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     background-color: #f1f1f1;
     padding: 30px;
 }
 
     /* Поиск */
     .search{
+        flex: 10%;
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
 
     }
 
@@ -72,6 +78,7 @@ body {
     /* Кнопки */
 
     .hotButtons {
+        flex: 20%;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -80,7 +87,7 @@ body {
     }
 
         .hotButtons button {
-            width: 100%;
+            flex: 25%;
             padding: 10px;
             font-size: 16px;
             background-color: #bbb;
@@ -89,15 +96,39 @@ body {
             text-align: center;
         }
 
+        .hotButtons button:hover {
+            background-color: #999; /* Darker shade on hover */
+            /* transform: scale(1.05);  */
+        }
+
+        .hotButtons button:active {
+            background-color: #777; /* Even darker shade when pressed */
+            /* transform: scale(0.95); */
+        }
+
 
 
     /* Календарь */
     .calendar {
+        flex: 30%;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-        margin: 20px;
+        /* align-items: center; */
+        gap: 10px;
     }
+        .calendar input{
+            flex: 50%;
+            text-align: center;
+            
+        }
+
 
     /* checkbox style */
+    .incompleteTasksCheckbox{
+        padding-top: 5%;
+        flex: 70%;
+    }
 
 
 /* Main column */
@@ -269,6 +300,7 @@ body {
             justify-content: center;
             align-items: center;
             transform: scale(4);
+            pointer-events: none;
         }
 
     

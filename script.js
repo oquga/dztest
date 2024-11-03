@@ -49,8 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
   searchButton.addEventListener('click', function() {
     const searchTerm = searchInput.value;
     performSearch(searchTerm);
+    
     console.log(`Searching for "${searchTerm}"...`);
+    
     displayCurrentCriteria(searchTerm);
+    $('#searchInput').val('');
+
   });
 
 });

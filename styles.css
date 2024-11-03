@@ -32,7 +32,11 @@ body {
 }
 
 
-/* Поиск и кнопки */
+/* Поиск */
+.search{
+    display: flex;
+
+}
 
 .search input[type=text] {
     padding: 10px;
@@ -70,68 +74,35 @@ body {
     display: table;
   }
 
+/* Кнопки */
 
-
-/* .search-box {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    background-color: #ccc;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-.search-box input {
-    width: 100%;
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-}
-
-
-
-.buttons {
+.hotButtons {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.buttons button {
+.hotButtons button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
     background-color: #bbb;
     border: none;
     cursor: pointer;
-    text-align: left;
+    text-align: center;
+
 }
 
 
 
 /* Календарь */
-/* #calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
+.calendar {
+    justify-content: center;
     margin: 20px;
 }
 
-.day {
-    padding: 20px;
-    text-align: center;
-    border: 1px solid #ccc;
-    cursor: pointer;
-}
-
-.day.selected {
-    background-color: #007bff;
-    color: white;
-}
-
-.day.range {
-    background-color: #66b3ff;
-} */
 
 /* Список задач */
 .todo-list {

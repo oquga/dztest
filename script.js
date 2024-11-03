@@ -1,7 +1,9 @@
-// const searchInput = ;
+
+
+const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
 
-document.getElementById('searchInput').addEventListener('keyup', function(event) {
+searchInput.addEventListener('keyup', function(event) {
   if (event.keyCode === 13) {
     // simulate a button click to trigger the search
     searchButton.click();

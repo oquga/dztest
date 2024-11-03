@@ -1,7 +1,7 @@
 /* Основные стили */
 * {
     box-sizing: border-box;
-  }
+}
 
 body {
     font-family: Arial, sans-serif;
@@ -51,7 +51,8 @@ body {
     float: left;
     width: 20%;
     padding: 10px;
-    background: #2196F3;
+    /* background: #2196F3; */
+    background: #f1f1f1;
     color: white;
     font-size: 17px;
     border: 1px solid grey;
@@ -60,6 +61,8 @@ body {
   }
 
 .search button .ui-icon {
+    transform: scale(2);
+    transform-origin: center;
     display: inline-block;
     vertical-align: middle;
   }
@@ -153,5 +156,5 @@ body {
     font-size: 16px;
     background-color: #ccc;
     border: none;
-    cursor: pointer; */
+    cursor: pointer; 
 }

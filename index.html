@@ -24,9 +24,10 @@
             <div class="hotButtons">
               <button>Today</button>
               <button>This Week</button>
-          </div>
+            </div>
 
             <div class="calendar">
+              <center>
               <span id="datepicker"></span>
                 <script>
                   var eventDates = {};
@@ -44,6 +45,14 @@
                   }
                 });
                 </script>
+              </center>
+            </div>
+
+            <div class="incompleteTasksCheckbox">
+              <center>
+                <input type="checkbox" id="tasksFilterCheckbox">
+                <label for="myCheckbox">Incomplete tasks only</label>
+              </center>
             </div>
         </div>
 

@@ -1,7 +1,18 @@
+function handleCheckboxChange() {
+  var checkbox = document.getElementById("tasksFilterCheckbox");
+  if (checkbox.checked) {
+    console.log("Checkbox is checked");
+    // Perform actions when checkbox is checked
+  } else {
+    console.log("Checkbox is unchecked");
+    // Perform actions when checkbox is unchecked
+  }
+}
 
 
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
+  
 
 searchInput.addEventListener('keyup', function(event) {
   if (event.keyCode === 13) {
@@ -13,13 +24,10 @@ searchInput.addEventListener('keyup', function(event) {
 searchButton.addEventListener('click', function() {
   // get the search input value
   const searchTerm = searchInput.value;
+  //performSearch(searchTerm);
   // do something with the search term (e.g. redirect to a search results page)
   console.log(`Searching for "${searchTerm}"...`);
 });
-
-// add event listener to the input (if you want to trigger the search on Enter keypress)
-
-
 
 function performSearch(searchTerm) {
   console.log('Searching for:', searchTerm);
@@ -34,35 +42,6 @@ function performSearch(searchTerm) {
 }
 
 $(document).ready(function () {
-  // Функция для загрузки задач с сервера
-  function loadTasks() {
-    $.ajax({
-      url: "https://todo.doczilla.pro/api/todos",
-      method: "GET",
-      dataType: "application/json",
-      success: function (data) {
-        $("#todo-list").empty(); // Очищаем список задач
-        console.log(data);
-        data.tasks.forEach(function (task) {
-          let taskItem = `
-                      <div class="todo-item" onclick="showOverlay('${task.title}', '${
-            task.time
-          }', '${task.description}')">
-                          <div class="info">
-                              <strong>${task.title}</strong>
-                              <p>${task.short_description}</p>
-                          </div>
-                          <span>${task.time}</span>
-                          <input type="checkbox" ${task.completed ? "checked" : ""}>
-                      </div>`;
-          $("#todo-list").append(taskItem);
-        });
-      },
-      error: function () {
-        alert("Не удалось загрузить задачи");
-      },
-    });
-  }
 
   // Показать оверлей с информацией о задаче
   window.showOverlay = function (title, time, description) {

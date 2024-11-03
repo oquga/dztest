@@ -7,9 +7,6 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    /* display: flex; */
-    /* height: 100%; */
-    /* background-color: #f0f0f0;  */
 }
 
 .container {  
@@ -18,116 +15,215 @@ body {
     height: 100vh;
 }
 
+
+
+
 .sidebar {
     flex: 20%;
     background-color: #f1f1f1;
     padding: 30px;
 }
 
+    /* Поиск */
+    .search{
+        display: flex;
+
+    }
+
+        .search input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+        
+        .search button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            /* background: #2196F3; */
+            background: #f1f1f1;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+        .search button .ui-icon {
+            transform: scale(2);
+            transform-origin: center;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .search button:hover {
+            background: #0b7dda;
+        }
+
+        .search::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+    /* Кнопки */
+
+    .hotButtons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+        .hotButtons button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #bbb;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+
+
+    /* Календарь */
+    .calendar {
+        justify-content: center;
+        margin: 20px;
+    }
+
+    /* checkbox style */
+
+
 /* Main column */
 .content {
     flex: 70%;
     background-color: white;
     padding: 20px;
-}
-
-
-/* Поиск */
-.search{
-    display: flex;
-
-}
-
-.search input[type=text] {
-    padding: 10px;
-    font-size: 17px;
-    border: 1px solid grey;
-    float: left;
-    width: 80%;
-    background: #f1f1f1;
-  }
-  
-.search button {
-    float: left;
-    width: 20%;
-    padding: 10px;
-    /* background: #2196F3; */
-    background: #f1f1f1;
-    color: white;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-left: none;
-    cursor: pointer;
-  }
-
-.search button .ui-icon {
-    transform: scale(2);
-    transform-origin: center;
-    display: inline-block;
-    vertical-align: middle;
-  }
-  
-.search button:hover {
-    background: #0b7dda;
-  }
-
-.search::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-
-/* Кнопки */
-
-.hotButtons {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.hotButtons button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #bbb;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-
+    /* justify-content: space-between; */
 }
 
 
+    /* Todo header */
 
-/* Календарь */
-.calendar {
-    justify-content: center;
-    margin: 20px;
-}
+    .todo-header {  
+        flex: 10%;
+        display: flex;
+        flex-direction: row;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        /* flex-wrap: wrap; */
+    }
+
+            .todoHeaderDate {
+                flex: 50%;
+                justify-content: flex-start;
+                /* background-color: #f1f1f1;
+                padding: 30px; */
+            }
+
+            .todoHeaderSort {
+                display: flex;
+                flex: 50%;
+                justify-content: flex-end;
+                /* background-color: white;
+                padding: 20px; */
+            }
+
+            /* Sort by date label style */
 
 
-/* Список задач */
-.todo-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+    /* Список задач */
+    .todo-list {
+        flex: 85%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
 
-.todo-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-}
+        .todo-item {
+            display: flex;
+            /* align-items: center; */
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-.todo-item .info {
-    display: flex;
-    flex-direction: column;
-}
+            .taskName{
+                flex: auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
+
+            .info {
+                /* flex: auto; */
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+                .taskShortDesc{
+                    flex: 90%;
+                }
+
+                .taskStatus{
+                    flex: 10%;
+                    display: flex;
+                    /* flex-direction: column; */
+                    justify-content: center;
+                    align-items: center;
+                    
+                    
+                }
+                
+                .taskStatus input{
+                    transform: scale(4);
+                }
+
+            .taskDate{
+                flex: auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+    .todo-pagination{
+        flex: 5%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+        .todo-pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+            
+        .todo-pagination a.active {
+        background-color: black;
+        color: white;
+        }
+
+        .todo-pagination a:hover:not(.active) {background-color: #ddd;}
+
+
+
+
 
 /* Оверлей задачи */
 .overlay {
@@ -143,18 +239,55 @@ body {
 }
 
 .overlay-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background-color: white;
     padding: 20px;
-    width: 300px;
+    height: 80%;
+    width: 40%;
     border-radius: 4px;
 }
+    .overlay-header{
+        flex: 10%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
 
-.overlay-content button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #ccc;
-    border: none;
-    cursor: pointer; 
-}
+        .overlay-task{
+            flex: 60%;
+            display: flex;
+            flex-direction: column;
+        
+        }
+
+        .overlay-checkbox{
+            flex: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(4);
+        }
+
+    
+    .overlay-description{
+        flex: 80%;
+        overflow: auto;
+    }
+
+    .overlay-button{
+        flex: 10%;
+    }
+
+    .overlay-content button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #ccc;
+        border: none;
+        cursor: pointer; 
+    }

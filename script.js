@@ -4,7 +4,9 @@ let isCompleteTasksOnly=false;
 document.addEventListener('DOMContentLoaded', function() {
   let isoDate = new Date().toJSON().slice(0, 10);
   let todayDate = isoDate;
-  displayCurrentCriteria(todayDate);
+  displayCurrentCriteria("all");
+
+  getAllTasks(1,0);
 });
 
 //change actual criteria function
@@ -48,22 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // add event listener to the button
   searchButton.addEventListener('click', function() {
     const searchTerm = searchInput.value;
-    performSearch(searchTerm);
     
+    //performSearch(searchTerm);
     console.log(`Searching for "${searchTerm}"...`);
-    
     displayCurrentCriteria(searchTerm);
+    getTasksByName(searchTerm);
+    
     $('#searchInput').val('');
-
   });
-
 });
 
-function getTasksByName() {
-  // Получаем имя из поисковой строки
-
+function getTasksByName(searchTerm) {
   // Формируем URL с параметрами
-  const url = `http://localhost:3000/todos?limit=${1}&offset=${1}`;
+  const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${1}&offset=${1}`;
 
   fetch(url)
     .then((response) => response.json())
@@ -76,6 +75,35 @@ function getTasksByName() {
     //
 }
 
+function getTasksByName(searchTerm) {
+  // Формируем URL с параметрами
+  const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${1}&offset=${1}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => console.error("Ошибка:", error));
+
+    //
+}
+
+function getAllTasks(limit,offset) {
+  // Формируем URL с параметрами
+  const url = `http://localhost:3000/todos/find?limit=${limit}&offset=${offset}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data);
+      // document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    })
+    .catch((error) => console.error("Ошибка:", error));
+
+    //
+}
 
 
 function performSearch(searchTerm) {

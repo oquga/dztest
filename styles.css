@@ -11,15 +11,14 @@ body {
 
 .container {  
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     height: 100vh;
 }
 
 
-
-
 .sidebar {
-    flex: 20%;
+    flex: 25%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -133,7 +132,7 @@ body {
 
 /* Main column */
 .content {
-    flex: 70%;
+    flex: 75%;
     background-color: white;
     padding: 20px;
     display: flex;
@@ -150,7 +149,7 @@ body {
         flex-direction: row;
         padding-top: 20px;
         padding-bottom: 20px;
-
+        align-items: center;
         /* flex-wrap: wrap; */
     }
 
@@ -167,6 +166,10 @@ body {
                 justify-content: flex-end;
                 /* background-color: white;
                 padding: 20px; */
+            }
+
+            .todoHeaderSort:hover{
+                text-decoration: underline;
             }
 
             /* Sort by date label style */

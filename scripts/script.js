@@ -1,5 +1,15 @@
 let isNotCompleteTasksOnly = false;
+let sortByDate = false;
+
+let searchName;
+let startDate;
+let endDate;
+
+let pageNum;
+let limit = 4;
+
 let currentTaskList;
+let currentPageTaskList;
 
 //change actual criteria 
 function displayCurrentCriteria(criteria) {
@@ -7,58 +17,12 @@ function displayCurrentCriteria(criteria) {
   $('#currentCritera').text(criteria);
 };
 
-//ISO string to (DD.MM.YYYY HH:mm)
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
-  return date.toLocaleString('en-GB', options).replace(',', '');
-}
-
-function getTasksByName(searchTerm,limit,offset){
-  const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${limit}&offset=${offset}`;
-    fetch(url)
-    .then(response => response.json())
-      .then((data) => {
-        console.log(data);
-        generateTodoItems(data);
-      })
-      .catch((error) => console.error("Ошибка:", error));
-}
-
-function getAllTasks(limit,offset) {
-  const url = `http://localhost:3000/todos?limit=${limit}&offset=${offset}`;
-    fetch(url)
-    .then(response => response.json())
-      .then((data) => {
-        generateTodoItems(data);
-      })
-      .catch((error) => console.error("Ошибка:", error));
-}
-
-function getTasksByDates(from,to,limit,offset) {
-
-    let isDone = !isNotCompleteTasksOnly;
-  const url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${isDone}&limit=${limit}&offset=${offset}`;
-  
-    fetch(url)
-    .then(response => response.json())
-      .then((data) => {
-        console.log(data)
-        generateTodoItems(data);
-      })
-      .catch((error) => console.error("Ошибка:", error));
-}
-
-
 
 
 
 //initialize startup variables when document is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  let isoDate = new Date().toJSON().slice(0, 10);
   todayTasks();
-  displayCurrentCriteria(isoDate);
-  
 });
 
 //Search by name button
@@ -93,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function todayTasks(){
   const currentDate = new Date();
+  let isoDate = new Date().toJSON().slice(0, 10);
+
   let startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0, 0);
   let startOfDayInt64 = startOfDay.getTime(); // Convert to int64
 
@@ -100,6 +66,7 @@ function todayTasks(){
   let endOfDayInt64 = endOfDay.getTime(); // Convert to int64
   
   console.log(startOfDay);
+  displayCurrentCriteria(isoDate)
   getTasksByDates(startOfDayInt64,endOfDayInt64,4,0);
 }
 
@@ -131,29 +98,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function handleSidebarCheckbox() { 
     if (sidebarCheckbox.checked) {
       isNotCompleteTasksOnly = true;
-      console.log("isNotCompleteTaskOnly: "+ isNotCompleteTasksOnly);
     } else {
       isNotCompleteTasksOnly = false;
-      console.log("isNotCompleteTaskOnly: "+ isNotCompleteTasksOnly);
     }
+    console.log("isNotCompleteTaskOnly: "+ isNotCompleteTasksOnly);
   }
 
   sidebarCheckbox.addEventListener('change', handleSidebarCheckbox);
 });
 
-
-
-
-//Parse Array into todo task blocks in index.html
 function generateTodoItems(tasks) {
+  console.log(tasks);
   currentTaskList =tasks;
-  const container = document.getElementsByClassName('todo-list')[0];
-
-  container.innerHTML = '';
-
-  // Iterate over each task in the array
+  const todoListcontainer = document.getElementsByClassName('todo-list')[0];
+  
+  todoListcontainer.innerHTML = '';
+  
   for (let i = 0; i < tasks.length; i++) {
-    let todoItem = `
+      let todoItem = `
           <div class="todo-item" >
               <div class="taskName" onclick="showOverlay(${i})">
                   <strong>${tasks[i].name}</strong>
@@ -171,55 +133,35 @@ function generateTodoItems(tasks) {
               </div>
           </div>
       `; 
-    container.innerHTML += todoItem;
+      todoListcontainer.innerHTML += todoItem;
   } 
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Показать оверлей с информацией о задаче
-  window.showOverlay = function (i) {
-    $("#task-title").text(currentTaskList[i].name);
-    $("#task-time").text(currentTaskList[i].date);
-    $("#task-description").text(currentTaskList[i].fullDesc);
-    $("#overlay").css("display", "flex");
   }
 
-  // Скрыть оверлей
-  window.hideOverlay = function () {
-    $("#overlay").css("display", "none");
-  };
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   window.showOverlay = function (i) {
+//     $("#task-title").text(currentTaskList[i].name);
+//     $("#task-time").text(currentTaskList[i].date);
+//     $("#task-description").text(currentTaskList[i].fullDesc);
+//     $("#overlay").css("display", "flex");
+//   }
+
+//   window.hideOverlay = function () {
+//     $("#overlay").css("display", "none");
+//   };
 
 
-  // Обработчик для фильтрации задач
-  $("#incomplete-only").on("change", function () {
-    if ($(this).is(":checked")) {
-      $('.todo-item input[type="checkbox"]:checked').closest(".todo-item").hide();
-    } else {
-      $(".todo-item").show();
-    }
-  });
-});
+//   // Обработчик для фильтрации задач
+//   $("#incomplete-only").on("change", function () {
+//     if ($(this).is(":checked")) {
+//       $('.todo-item input[type="checkbox"]:checked').closest(".todo-item").hide();
+//     } else {
+//       $(".todo-item").show();
+//     }
+//   });
+// });
 
 
-function convertDateToInt64(dateString, isStart) {
-  const parts = dateString.split('-');
-  const day = parseInt(parts[0], 10);
-  const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JavaScript
-  const year = parseInt(parts[2], 10) + 2000; // Adjust for two-digit year
-
-
-  const date = new Date(year, month, day, 23, 59, 59, 999)
-  
-  if(isStart == "true"){
-    date = new Date(year, month, day, 0, 0, 0, 0)
-  } 
-
-  // Get the timestamp in milliseconds (int64)
-  const timestamp = date.getTime();
-  console.log(timestamp);
-  console.log(date);
-  return timestamp; // 
-}
 
 
 

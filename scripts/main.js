@@ -23,7 +23,7 @@ function displayCurrentCriteria(criteria) {
 
 function generateTodoItems(tasks) {
     console.log(tasks);
-    currentTaskList =tasks;
+    currentTaskList = tasks;
     const todoListcontainer = document.getElementsByClassName('todo-list')[0];
     
     todoListcontainer.innerHTML = '';

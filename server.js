@@ -29,12 +29,12 @@ function fetchToDos(limit, offset, callback) {
 }
 
 https://todo.doczilla.pro/api/todos/date?from=1704926400000&to=1704943800000&status=false&limit=1&offset=0
-function fetchToDosByDate(from, to, isDone, limit, offset, callback) {
+function fetchToDosByDate(from, to, status, limit, offset, callback) {
   let apiUrl;
-  if(isDone){
-     apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&limit=${limit}&offset=${offset}`;
+  if(status){
+    apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&status=false&limit=${limit}&offset=${offset}`;
   } else{
-     apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&status=false&limit=${limit}&offset=${offset}`;
+    apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&limit=${limit}&offset=${offset}`;
   }
   
   https

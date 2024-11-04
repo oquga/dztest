@@ -53,9 +53,9 @@ console.log(url);
 }
 
 
-function getTasksByDates(from,to,limit,offset) {
-    let url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${true}&limit=${limit}&offset=${offset}`;
-    if(isNotCompleteTasksOnly){
+function getTasksByDates(from,to,status,limit,offset) {
+    let url = `http://localhost:3000/todos/date?from=${from}&to=${to}&limit=${limit}&offset=${offset}`;
+    if(status){
         url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${false}&limit=${limit}&offset=${offset}`;
     } 
 
@@ -64,7 +64,6 @@ function getTasksByDates(from,to,limit,offset) {
     .then((data) => {
         console.log(data)
         generateTodoItems(data);
-        return data;
     })
     .catch((error) => console.error("Ошибка:", error));
 }

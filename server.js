@@ -30,10 +30,12 @@ function fetchToDos(limit, offset, callback) {
 
 https://todo.doczilla.pro/api/todos/date?from=1704926400000&to=1704943800000&status=false&limit=1&offset=0
 function fetchToDosByDate(from, to, isDone, limit, offset, callback) {
-  let apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&limit=${limit}&offset=${offset}`;
-  if(isDone!=null || isDone!=undefined){
-     apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&status=${isDone}&limit=${limit}&offset=${offset}`;
-  } 
+  let apiUrl;
+  if(isDone){
+     apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&limit=${limit}&offset=${offset}`;
+  } else{
+     apiUrl = `https://todo.doczilla.pro/api/todos/date?from=${from}&to=${to}&status=false&limit=${limit}&offset=${offset}`;
+  }
   
   https
     .get(apiUrl, (res) => {
@@ -119,7 +121,7 @@ const server = http.createServer((req, res) => {
       } else if (parsedUrl.pathname === "/todos/date"){
         const from = parsedUrl.query.from;
         const to = parsedUrl.query.to;
-        const status = parsedUrl.query.status || null;
+        const status = parsedUrl.query.status ;
         
         fetchToDosByDate(from,to,status,limit,offset, (data, error) => {
           res.writeHead(200, {

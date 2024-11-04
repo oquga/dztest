@@ -21,25 +21,6 @@ function hideOverlay() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-function convertDateToInt64(dateString, isStart) {
-    const parts = dateString.split('-');
-    const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JavaScript
-    const year = parseInt(parts[2], 10) + 2000; // Adjust for two-digit year
-  
-
-    const date = new Date(year, month, day, 23, 59, 59, 999)
-    
-    if(isStart == "true"){
-      date = new Date(year, month, day, 0, 0, 0, 0)
-    } 
-  
-    // Get the timestamp in milliseconds (int64)
-    const timestamp = date.getTime();
-    console.log(timestamp);
-    console.log(date);
-    return timestamp; // 
-}
   
   //ISO string to (DD.MM.YYYY HH:mm)
 function formatDate(dateString) {
@@ -55,30 +36,35 @@ const url = `http://localhost:3000/todos/find?q=${searchTerm}&limit=${limit}&off
     .then((data) => {
         console.log(data);
         generateTodoItems(data);
+        return data;
     })
     .catch((error) => console.error("Ошибка:", error));
 }
 
-function getAllTasks(limit,offset) {
+function getAllTasks(offset) {
 const url = `http://localhost:3000/todos?limit=${limit}&offset=${offset}`;
+console.log(url);
     fetch(url)
     .then(response => response.json())
     .then((data) => {
-        generateTodoItems(data);
+         generateTodoItems(data);
     })
     .catch((error) => console.error("Ошибка:", error));
 }
 
-function getTasksByDates(from,to,limit,offset) {
 
-    let isDone = !isNotCompleteTasksOnly;
-const url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${isDone}&limit=${limit}&offset=${offset}`;
+function getTasksByDates(from,to,limit,offset) {
+    let url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${true}&limit=${limit}&offset=${offset}`;
+    if(isNotCompleteTasksOnly){
+        url = `http://localhost:3000/todos/date?from=${from}&to=${to}&status=${false}&limit=${limit}&offset=${offset}`;
+    } 
 
     fetch(url)
     .then(response => response.json())
     .then((data) => {
         console.log(data)
         generateTodoItems(data);
+        return data;
     })
     .catch((error) => console.error("Ошибка:", error));
 }

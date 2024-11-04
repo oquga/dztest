@@ -51,27 +51,21 @@ document.addEventListener('DOMContentLoaded', function() {
     todayTasks();
   });
 
+  todayTasks();
 
 });
 
 function todayTasks(){
-  console.log("Show Today Tasks")
   const currentDate = new Date();
-
   let startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 0, 0, 0, 0);
-  let startOfDayInt64 = startOfDay.getTime(); // Convert to int64
-
   let endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23, 59, 59, 999);
-  let endOfDayInt64 = endOfDay.getTime(); // Convert to int64
   
-  startDate = startOfDayInt64;
-  endDate = endOfDayInt64;
-
+   startDate = startOfDay.getTime(); // Convert to int64
+   endDate = endOfDay.getTime(); // Convert to int64
    search();
 }
 
 function thisWeekTasks(){
-    console.log("Show this Week tasks")
     var curr = new Date(); // Get current date
     var first = curr.getDate() - curr.getDay() + 1; // First day is Monday
     var last = first + 6; // Last day is Sunday

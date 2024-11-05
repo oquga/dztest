@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DO List</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/functions.js"></script>
+    <script src="scripts/main.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
@@ -23,8 +25,8 @@
             </div>
 
             <div class="hotButtons">
-              <button onclick="todayTasks()">Today</button>
-              <button onclick="thisWeekTasks()">This Week</button>
+              <button id="todayTasksBtn">Today</button>
+              <button id="weekTasksBtn">This Week</button>
             </div>
 
               
@@ -47,31 +49,13 @@
         <div class="content">
             <div class="todo-header">
               <div class="todoHeaderDate">
-                <label id="currentCritera">8 мая 2022</label>
+                <label id="currentCritera"></label>
               </div>
               <div class="todoHeaderSort">
                 <label><span class="ui-icon ui-icon-arrowreturnthick-1-s "></span>Sort by date</label>
               </div>
             </div>
             <div class="todo-list">
-                <!-- <div class="todo-item">
-                    <div class="taskName" onclick="showOverlay()">
-                      <strong>Ac faucibusmi</strong>
-                    </div>
-
-                    <div class="info">
-                        <div class="taskShortDesc" onclick="showOverlay()">
-                        <p>Metus portafacilisi egestasamet vitaenunc vitaetristique veladipiscing orci sollicitudinpurus maurisfringilla utorci cursus volutpatmassa laoreetvenenatis sollicitudin viverraid.</p>
-                        </div>
-                        <div class="taskStatus">
-                          <input type="checkbox" checked>
-                        </div>
-                    </div>
-        
-                    <div class="taskDate" onclick="showOverlay()">
-                      <span>08.05.2022 00:10</span>
-                    </div>
-                </div> -->
             </div>
 
 
@@ -90,14 +74,17 @@
         <div class="overlay-content">
             <div class="overlay-header">
               <div class="overlay-task">
-                <h2>Ac faucibusmi</h2>
-                <label>08.05.2022 00:10</label>
+                <h2 id="overlayTaskName">Ac faucibusmi</h2>
+                <label id="overlayTaskDate">08.05.2022 00:10</label>
               </div>
               <div class="overlay-checkbox">
-                <input type="checkbox" id="overlayTaskCheck">
+                <!-- <input type="checkbox" id="overlayCheckbox"> -->
               </div>
             </div>
+            
             <div class="overlay-description">
+              <p id="overlayFullDescription"></p>
+            
             </div>
             
             <div class="overlay-button">
@@ -107,13 +94,7 @@
     </div>
 
     <script>
-        function showOverlay() {
-            document.getElementById('overlay').style.display = 'flex';
-        }
-
-        function hideOverlay() {
-            document.getElementById('overlay').style.display = 'none';
-        }
+       
     </script>
 </body>
 </html>
